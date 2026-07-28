@@ -30,6 +30,7 @@
     "SESSION_DRIVER": "database",
     "CACHE_STORE": "database",
     "QUEUE_CONNECTION": "database",
-    "ASSET_ENGINE_URL": "https://vanguard-asset-api.vercel.app"
+    "ASSET_ENGINE_URL": "https://vanguard-asset-api.vercel.app",
+    "VIEW_COMPILED_PATH": "/tmp/storage/framework/views"
   }
 }
