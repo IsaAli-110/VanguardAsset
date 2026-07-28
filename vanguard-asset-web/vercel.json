@@ -27,7 +27,7 @@
     "DB_DATABASE": "VanguardAsset_castvoice",
     "DB_USERNAME": "VanguardAsset_castvoice",
     "DB_PASSWORD": "79cc8699da7bfc78b5ecc82ccfb019a115e00bd3",
-    "SESSION_DRIVER": "database",
+    "SESSION_DRIVER": "cookie",
     "CACHE_STORE": "database",
     "QUEUE_CONNECTION": "database",
     "VIEW_COMPILED_PATH": "/tmp/storage/framework/views",
