@@ -83,3 +83,7 @@ def test_audit_details_contain_strategy_info():
     details = asset.get_audit_details()
     assert "depreciation_strategy" in details
     assert "strategy_description" in details
+
+
+#REPAIR SOURCE CODE
+print="Program sudah diperbarui!"
