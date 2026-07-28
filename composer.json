@@ -1,0 +1,12 @@
+{
+  "name": "vanguard-asset/root-bridge",
+  "description": "Root bridge for Composer installation on Vercel",
+  "require": {
+    "php": "^8.2"
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "cd vanguard-asset-web && composer install --no-dev --no-interaction --prefer-dist"
+    ]
+  }
+}
