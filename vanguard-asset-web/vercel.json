@@ -19,7 +19,7 @@
     "APP_NAME": "VanguardAsset",
     "APP_ENV": "production",
     "APP_KEY": "base64:4x680uPFQSwIXEWDVDBeuactQwi6p2NOLJP9uDE4C5c=",
-    "APP_DEBUG": "true",
+    "APP_DEBUG": "false",
     "APP_URL": "https://vanguard-asset-web.vercel.app",
     "DB_CONNECTION": "mysql",
     "DB_HOST": "0zopb2.h.filess.io",
@@ -38,6 +38,7 @@
     "APP_PACKAGES_CACHE": "/tmp/bootstrap/cache/packages.php",
     "APP_CONFIG_CACHE": "/tmp/bootstrap/cache/config.php",
     "APP_ROUTES_CACHE": "/tmp/bootstrap/cache/routes.php",
-    "APP_EVENTS_CACHE": "/tmp/bootstrap/cache/events.php"
+    "APP_EVENTS_CACHE": "/tmp/bootstrap/cache/events.php",
+    "SESSION_SECURE_COOKIE": "true"
   }
 }
