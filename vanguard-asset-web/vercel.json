@@ -32,6 +32,7 @@
     "QUEUE_CONNECTION": "database",
     "ASSET_ENGINE_URL": "https://vanguard-asset-api.vercel.app",
     "VIEW_COMPILED_PATH": "/tmp/storage/framework/views",
-    "LOG_CHANNEL": "stderr"
+    "LOG_CHANNEL": "stderr",
+    "APP_BOOTSTRAP_CACHE_PATH": "/tmp/bootstrap/cache"
   }
 }

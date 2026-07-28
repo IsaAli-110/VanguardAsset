@@ -4,7 +4,8 @@
 $storageDirs = [
     '/tmp/storage/framework/views',
     '/tmp/storage/framework/cache',
-    '/tmp/storage/framework/sessions'
+    '/tmp/storage/framework/sessions',
+    '/tmp/bootstrap/cache'
 ];
 
 foreach ($storageDirs as $dir) {
