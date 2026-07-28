@@ -19,7 +19,7 @@
     "APP_NAME": "VanguardAsset",
     "APP_ENV": "production",
     "APP_KEY": "base64:4x680uPFQSwIXEWDVDBeuactQwi6p2NOLJP9uDE4C5c=",
-    "APP_DEBUG": "false",
+    "APP_DEBUG": "true",
     "APP_URL": "https://vanguard-asset-web.vercel.app",
     "DB_CONNECTION": "mysql",
     "DB_HOST": "0zopb2.h.filess.io",
