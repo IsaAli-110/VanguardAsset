@@ -23,8 +23,10 @@ $app = Application::configure(basePath: dirname(__DIR__))
         //
     })->create();
 
-if (env('APP_ENV') === 'production') {
-    \Illuminate\Support\Facades\URL::forceScheme('https');
-}
+$app->booted(function () {
+    if (env('APP_ENV') === 'production') {
+        \Illuminate\Support\Facades\URL::forceScheme('https');
+    }
+});
 
 return $app;
