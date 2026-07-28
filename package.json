@@ -1,7 +1,0 @@
-{
-  "name": "vanguard-asset-monorepo",
-  "version": "1.0.0",
-  "scripts": {
-    "vercel-build": "cd vanguard-asset-web && composer install --no-dev --no-interaction --prefer-dist"
-  }
-}

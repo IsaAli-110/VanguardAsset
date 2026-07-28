@@ -1,31 +1,18 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "vanguard-asset-api/main.py",
-      "use": "@vercel/python"
-    },
-    {
-      "src": "vanguard-asset-web/api/index.php",
-      "use": "vercel-php@0.7.2"
+  "functions": {
+    "api/index.php": {
+      "runtime": "vercel-php@0.7.2"
     }
-  ],
+  },
   "routes": [
     {
-      "src": "/api/asset/depreciation",
-      "dest": "vanguard-asset-api/main.py"
-    },
-    {
-      "src": "/api/observer/log",
-      "dest": "vanguard-asset-api/main.py"
-    },
-    {
       "src": "/storage/(.*)",
-      "dest": "vanguard-asset-web/storage/$1"
+      "dest": "/storage/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "vanguard-asset-web/api/index.php"
+      "dest": "/api/index.php"
     }
   ],
   "env": {
@@ -33,6 +20,7 @@
     "APP_ENV": "production",
     "APP_KEY": "base64:4x680uPFQSwIXEWDVDBeuactQwi6p2NOLJP9uDE4C5c=",
     "APP_DEBUG": "false",
+    "APP_URL": "https://vanguard-asset-web.vercel.app",
     "DB_CONNECTION": "mysql",
     "DB_HOST": "0zopb2.h.filess.io",
     "DB_PORT": "3305",
@@ -42,6 +30,6 @@
     "SESSION_DRIVER": "database",
     "CACHE_STORE": "database",
     "QUEUE_CONNECTION": "database",
-    "ASSET_ENGINE_URL": "https://vanguard-asset-web.vercel.app"
+    "ASSET_ENGINE_URL": "https://vanguard-asset-api.vercel.app"
   }
 }
