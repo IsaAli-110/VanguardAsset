@@ -1,232 +1,226 @@
 # VanguardAsset 🛡️
 
 ### Enterprise Asset Management & RBAC System
-**Proyek UAS — Pemrograman Berorientasi Objek & Pemrograman Web**
 
-[![Laravel 11](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
-[![PHP 8.2+](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
-[![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com)
-[![Pytest](https://img.shields.io/badge/Pytest-46%20Passed-green?style=for-the-badge&logo=pytest&logoColor=white)](#menjalankan-unit-tests)
+**Proyek UAS — Object-Oriented Programming**
+
+Sistem manajemen aset perusahaan berbasis web dengan fitur RBAC (Role-Based Access Control), perhitungan depresiasi OOP, maintenance scheduler, dan peminjaman aset dengan tracking overdue.
 
 ---
 
-## 🌟 Tentang VanguardAsset
+## Prasyarat (Yang Harus Di-install)
 
-**VanguardAsset** adalah sistem manajemen aset perusahaan (*Enterprise Asset Management*) berbasis web terintegrasi. Sistem ini dibangun dengan arsitektur modular modern yang memisahkan **Web Frontend & Database Management** (PHP Laravel 11) dengan **OOP Logic Engine** (Python FastAPI).
+Sebelum menjalankan, pastikan kamu sudah menginstall:
 
-Sistem ini didesain khusus untuk memenuhi kebutuhan inventarisasi aset fisik maupun digital, lengkap dengan sistem hak akses bertingkat (**RBAC**), kalkulasi penyusutan nilai aset (**OOP Depreciation Engine**), manajemen peminjaman dengan penanganan *race condition*, penjadwalan pemeliharaan berkala, serta keamanan tingkat lanjut seperti manajemen sesi aktif (*force logout*) dan log audit terenkripsi.
+| Software | Versi | Link Download |
+|---|---|---|
+| **PHP** | 8.2+ | https://windows.php.net/download |
+| **Composer** | Terbaru | https://getcomposer.org/download |
+| **Python** | 3.10+ | https://www.python.org/downloads |
+| **MySQL** (XAMPP/Laragon) | Terbaru | https://www.apachefriends.org atau https://laragon.org |
+| **Git** *(opsional)* | Terbaru | https://git-scm.com/downloads |
 
----
-
-## 🏗️ Arsitektur Sistem
-
-Berikut adalah alur komunikasi data antara Web Frontend Laravel, Database MySQL, dan OOP Engine FastAPI:
-
-```mermaid
-graph TD
-    Client[🖥️ Web Browser / Glassmorphism UI] <-->|HTTP Request| Laravel[🔴 Laravel 11 Frontend]
-    Laravel <-->|Database Queries / lockForUpdate| MySQL[(🗄️ MySQL Database)]
-    Laravel <-->|API Request: calculate_depreciation| FastAPI[⚡ FastAPI OOP Engine]
-    FastAPI <-->|OOP Core & Strategy Patterns| PyOOP[📦 Physical & Digital Asset Objects]
-```
-
----
-
-## ✨ Fitur Unggulan
-
-*   **📱 Modern UI (Dark Glassmorphism):** Antarmuka responsif yang menakjubkan dengan gaya kaca buram transparan gelap untuk pengalaman pengguna yang premium.
-*   **🔒 Role-Based Access Control (RBAC):** Sistem otorisasi ketat yang membagi hak akses ke dalam 3 level peran (Admin, Manager, Staff).
-*   **⚙️ OOP Depreciation Engine:** Perhitungan penyusutan nilai aset secara dinamis (Straight Line, Declining Balance, dan Sum of Years) yang didelegasikan ke Python API berbasis OOP.
-*   **🤝 Safe Borrowing System:** Alur peminjaman aset yang aman dari pengajuan staf hingga persetujuan manajer, dilengkapi dengan proteksi *Race Condition* (`lockForUpdate`).
-*   **🚨 Overdue & Maintenance Alerts:** Deteksi otomatis aset yang terlambat dikembalikan serta penjadwal servis berkala otomatis.
-*   **🛡️ Security & Active Sessions:** Fitur audit log keamanan untuk melacak anomali dan kemampuan admin untuk memaksa keluar (*force logout*) sesi mencurigakan.
-*   **📊 Analytics Dashboard:** Visualisasi data berupa ketersediaan aset, sparkline pertumbuhan aset, dan daftar aset termahal.
-*   **📥 Export Reports:** Unduh laporan aset secara instan ke format PDF (DomPDF) dan CSV.
+> **Cara cek apakah sudah terinstall:**
+> Buka terminal/PowerShell, lalu ketik:
+> ```
+> php --version
+> composer --version
+> python --version
+> mysql --version
+> ```
+> Jika muncul versi masing-masing, berarti sudah terinstall.
 
 ---
 
-## 📁 Struktur Proyek
+## Cara Menjalankan (Step-by-Step)
 
-Aplikasi dibagi menjadi dua modul utama:
+### Langkah 1: Buat Database MySQL
 
-```
-vanguardasset/
-├── vanguard-asset-api/        ← 🐍 Python FastAPI (OOP Logic Engine)
-│   ├── app/
-│   │   ├── abstractions/      ← Abstraksi (ABC)
-│   │   ├── encapsulation/     ← Enkapsulasi (@property & validation)
-│   │   ├── inheritance/       ← Pewarisan (Physical vs Digital)
-│   │   ├── polymorphism/      ← Polimorfisme (AssetFactory & override)
-│   │   ├── interfaces/        ← Interface (Loggable & Depreciable)
-│   │   ├── strategies/        ← Strategy Pattern (3 metode depresiasi)
-│   │   ├── observers/         ← Observer Pattern (Event & Audit Logs)
-│   │   └── value_objects/     ← Value Object (Audit Trail immutable)
-│   ├── tests/                 ← 46 Unit Tests
-│   └── main.py               ← FastAPI entry point
-│
-├── vanguard-asset-web/        ← 🔴 Laravel 11 (Web Frontend & DB)
-│   ├── app/
-│   │   ├── Http/Controllers/  ← Kontroler Aset, Peminjaman, Keamanan, dll
-│   │   ├── Models/            ← Eloquent Models
-│   │   ├── Services/          ← Penghubung ke FastAPI (API Client Service)
-│   │   └── Middleware/        ← Keamanan RBAC & Security Headers
-│   ├── database/migrations/   ← Migrasi database MySQL
-│   ├── resources/views/       ← Template Blade (Dark Glassmorphism)
-│   └── routes/web.php         ← Definisi routing web
-```
+1. Buka **phpMyAdmin** (http://localhost/phpmyadmin) atau MySQL CLI
+2. Buat database baru dengan nama:
+   ```
+   vanguard_asset
+   ```
+3. Tidak perlu buat tabel — migration Laravel akan membuatnya otomatis
 
 ---
 
-## 💎 Implementasi 5 Pilar OOP & Design Patterns
+### Langkah 2: Jalankan Python FastAPI (Terminal 1)
 
-Kekuatan utama backend FastAPI (`vanguard-asset-api`) terletak pada penerapan konsep pemrograman berorientasi objek murni:
+Buka terminal **pertama**:
 
-1.  **Abstraksi (Abstraction):** Memakai kelas abstrak [CompanyAsset](file:///d:/UAS%20SEMETER%204/OOP%20&%20WEB/vanguardasset/vanguard-asset-api/app/abstractions/base_asset.py) dengan `@abstractmethod` agar setiap subclass wajib mendefinisikan cara perhitungan depresiasinya.
-2.  **Enkapsulasi (Encapsulation):** Melindungi data krusial seperti harga perolehan (`purchase_cost`) menggunakan properti getter & setter dengan validasi nilai negatif pada [cost_manager.py](file:///d:/UAS%20SEMETER%204/OOP%20&%20WEB/vanguardasset/vanguard-asset-api/app/encapsulation/cost_manager.py).
-3.  **Pewarisan (Inheritance):** Kelas spesifik [PhysicalAsset](file:///d:/UAS%20SEMETER%204/OOP%20&%20WEB/vanguardasset/vanguard-asset-api/app/inheritance/physical_asset.py) dan [DigitalAsset](file:///d:/UAS%20SEMETER%204/OOP%20&%20WEB/vanguardasset/vanguard-asset-api/app/inheritance/digital_asset.py) mewarisi struktur utama kelas induk `CompanyAsset`.
-4.  **Polimorfisme (Polymorphism):** Pemanggilan fungsi `.calculate_depreciation()` mengembalikan hasil yang berbeda tergantung objeknya: aset fisik menggunakan umur manfaat, aset digital menggunakan durasi sisa hari aktif lisensi.
-5.  **Interface:** Menggunakan interface [Loggable](file:///d:/UAS%20SEMETER%204/OOP%20&%20WEB/vanguardasset/vanguard-asset-api/app/interfaces/loggable.py) dan [Depreciable](file:///d:/UAS%20SEMETER%204/OOP%20&%20WEB/vanguardasset/vanguard-asset-api/app/interfaces/depreciable.py) untuk kontrak audit log dan perhitungan penyusutan.
-
-### 📐 Design Patterns yang Digunakan
-
-*   **Strategy Pattern:** Memisahkan 3 algoritma depresiasi ke dalam kelas strategi terpisah: [StraightLineStrategy](file:///d:/UAS%20SEMETER%204/OOP%20&%20WEB/vanguardasset/vanguard-asset-api/app/strategies/straight_line.py), [DecliningBalanceStrategy](file:///d:/UAS%20SEMETER%204/OOP%20&%20WEB/vanguardasset/vanguard-asset-api/app/strategies/declining_balance.py), dan [SumOfYearsStrategy](file:///d:/UAS%20SEMETER%204/OOP%20&%20WEB/vanguardasset/vanguard-asset-api/app/strategies/sum_of_years.py).
-*   **Observer Pattern:** Digunakan untuk mencatat aktivitas secara otomatis melalui kelas `EventDispatcher` kepada pendengar audit log (`AuditListener`) dan notifikasi (`NotificationListener`).
-
----
-
-## 🛠️ Panduan Instalasi & Penggunaan
-
-### 📋 Prasyarat Sistem
-
-Sebelum memulai, pastikan perangkat Anda telah terpasang perangkat lunak berikut:
-
-| Software | Versi Minimum | Link Resmi |
-| :--- | :--- | :--- |
-| **PHP** | `8.2` ke atas | [Download PHP](https://windows.php.net/download) |
-| **Composer** | Versi terbaru | [Download Composer](https://getcomposer.org/download) |
-| **Python** | `3.10` ke atas | [Download Python](https://www.python.org/downloads) |
-| **MySQL** | XAMPP / Laragon | [Laragon](https://laragon.org) / [XAMPP](https://www.apachefriends.org) |
-
----
-
-### 🚀 Langkah-langkah Menjalankan Aplikasi
-
-#### Langkah 1: Persiapan Database MySQL
-1. Buka panel kontrol database Anda (phpMyAdmin / MySQL CLI).
-2. Buat database baru bernama `vanguard_asset`.
-3. *Catatan:* Tidak perlu mengimpor tabel secara manual, migrasi Laravel akan menangani pembuatan skema tabel.
-
-#### Langkah 2: Menjalankan Python FastAPI (OOP Engine)
-Buka terminal baru, navigasikan ke folder API, kemudian jalankan perintah berikut:
 ```bash
 # Masuk ke folder API
 cd vanguard-asset-api
 
-# Membuat virtual environment & mengaktifkannya (Windows)
+# Buat virtual environment (opsional tapi disarankan)
 python -m venv venv
 venv\Scripts\activate
 
 # Install dependencies Python
 pip install -r requirements.txt
 
-# Menjalankan server FastAPI
+# Jalankan server FastAPI
 python -m uvicorn main:app --host 127.0.0.1 --port 8001 --reload
 ```
-> **Verifikasi API:** Buka browser Anda ke alamat `http://127.0.0.1:8001/docs` untuk melihat dokumentasi interaktif Swagger API.
 
-#### Langkah 3: Menjalankan Laravel Web (Frontend)
-Buka terminal kedua, arahkan ke folder web, lalu ketik perintah berikut:
+**Tanda berhasil:** Lihat output `Uvicorn running on http://127.0.0.1:8001`
+
+> Test API: Buka browser ke http://127.0.0.1:8001/docs — akan muncul halaman Swagger API Docs
+
+---
+
+### Langkah 3: Jalankan Laravel (Terminal 2)
+
+Buka terminal **kedua**:
+
 ```bash
 # Masuk ke folder web
 cd vanguard-asset-web
 
-# Install package PHP via Composer
+# Install dependencies Laravel
 composer install
 
-# Duplikasi file konfigurasi environment
+# Copy file environment
 copy .env.example .env
 
-# Generate application key Laravel
+# Generate application key
 php artisan key:generate
 ```
 
-Buka file `.env` yang baru dibuat dan sesuaikan konfigurasi koneksi database Anda:
+**Edit file `.env`** — sesuaikan konfigurasi database:
+
 ```env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=vanguard_asset
 DB_USERNAME=root
-DB_PASSWORD=your_mysql_password_here
+DB_PASSWORD=
 ```
 
-Setelah konfigurasi `.env` disimpan, jalankan migrasi database dan server lokal:
+> Jika kamu pakai password MySQL, isi `DB_PASSWORD` dengan password kamu.
+
 ```bash
-# Membuat tabel dan mengisi data awal (seeder)
+# Jalankan migration + seeder (buat tabel & data awal)
 php artisan migrate --seed
 
-# Menjalankan local development server
+# Jalankan server Laravel
 php artisan serve --port=8000
 ```
 
-#### Langkah 4: Akses Aplikasi
-Sekarang buka browser favorit Anda dan akses URL: **`http://localhost:8000`**
+**Tanda berhasil:** Lihat output `Server running on http://127.0.0.1:8000`
 
 ---
 
-## 👥 Akun Akses Default (Role & Permission)
+### Langkah 4: Buka Aplikasi
 
-Gunakan akun di bawah ini untuk menguji berbagai tingkat akses hak otorisasi (RBAC):
-
-| Peran (Role) | Email Login | Sandi (Password) | Fitur Utama yang Dapat Diakses |
-| :--- | :--- | :--- | :--- |
-| **IT Admin** 🛡️ | `admin@vanguard.com` | `password` | CRUD Aset, Kelola Pengguna, Security Center, Force Logout, Audit Log |
-| **Manager** 💼 | `manager@vanguard.com` | `password` | Tinjau Peminjaman (Approve/Reject), Perhitungan Depresiasi Aset |
-| **Staff** 👤 | `staff@vanguard.com` | `password` | Ajukan Peminjaman Aset, Kembalikan Aset, Lihat Katalog Aset |
+Buka browser ke **http://localhost:8000** dan login dengan akun default.
 
 ---
 
-## 🧪 Menjalankan Unit Tests
+## Akun Default
 
-Aplikasi backend Python didukung dengan unit testing komprehensif untuk memastikan perhitungan depresiasi dan pola desain berfungsi dengan benar.
+| Role | Email | Password |
+|---|---|---|
+| **IT Admin** | admin@vanguard.com | password |
+| **Manager** | manager@vanguard.com | password |
+| **Staff** | staff@vanguard.com | password |
+
+> **IT Admin** — Akses penuh: CRUD aset, approve peminjaman, user management, security center
+> **Manager** — Akses: Lihat aset, approve peminjaman, hitung depresiasi
+> **Staff** — Akses: Lihat aset, ajukan peminjaman, kembalikan aset
+
+---
+
+## Fitur Utama
+
+| Fitur | Deskripsi |
+|---|---|
+| **Manajemen Aset** | CRUD aset fisik (laptop, kamera) dan digital (lisensi software) |
+| **RBAC (Role-Based Access Control)** | 3 role dengan hak akses berbeda |
+| **OOP Depreciation Engine** | Perhitungan depresiasi dengan 3 metode (Garis Lurus, Saldo Menurun, Sum of Years) via FastAPI |
+| **Peminjaman Aset** | Request → Approve/Reject → Return, dengan due date & overdue tracking |
+| **Maintenance Scheduler** | Jadwal maintenance otomatis berdasarkan interval |
+| **Security Center** | Log aktivitas, session management, security headers |
+| **Dashboard Analytics** | Statistik aset, progress ring, sparkline, top aset termahal |
+| **Export Data** | Export CSV dan PDF |
+
+---
+
+## Struktur Proyek
+
+```
+vanguardasset/
+├── vanguard-asset-api/        ← Python FastAPI (OOP Logic Engine)
+│   ├── app/
+│   │   ├── abstractions/      ← Abstraksi (ABC)
+│   │   ├── encapsulation/     ← Enkapsulasi (@property)
+│   │   ├── inheritance/       ← Pewarisan (Physical/Digital Asset)
+│   │   ├── polymorphism/      ← Polimorfisme (AssetFactory)
+│   │   ├── interfaces/        ← Interface (Loggable, Depreciable)
+│   │   ├── strategies/        ← Strategy Pattern (3 metode depresiasi)
+│   │   ├── observers/         ← Observer Pattern (Event Dispatcher)
+│   │   └── value_objects/     ← Value Object (Audit Trail - frozen)
+│   ├── tests/                 ← 46 unit tests
+│   └── main.py               ← FastAPI entry point
+│
+├── vanguard-asset-web/        ← Laravel 11 (Web Frontend)
+│   ├── app/
+│   │   ├── Http/Controllers/  ← Controllers (Asset, Approval, Auth, dll)
+│   │   ├── Models/            ← Eloquent Models
+│   │   ├── Services/          ← Business Logic Services
+│   │   └── Middleware/        ← RBAC & Security Middleware
+│   ├── database/migrations/   ← Database migrations
+│   ├── resources/views/       ← Blade templates (Dark Glassmorphism UI)
+│   └── routes/web.php         ← Route definitions
+│
+└── README.md
+```
+
+---
+
+## 5 Pilar OOP yang Diimplementasikan
+
+| Pilar | Implementasi | File |
+|---|---|---|
+| **Abstraksi** | `CompanyAsset(ABC)` — class abstrak dengan `@abstractmethod` | `abstractions/base_asset.py` |
+| **Enkapsulasi** | `@property purchase_cost` dengan setter validasi (ValueError jika negatif) | `encapsulation/cost_manager.py` |
+| **Pewarisan** | `PhysicalAsset` dan `DigitalAsset` mewarisi `CompanyAsset` | `inheritance/` |
+| **Polimorfisme** | `AssetFactory.create_asset()` + override `calculate_depreciation()` | `polymorphism/asset_factory.py` |
+| **Interface** | `Loggable(ABC)` + `Depreciable(ABC)` dengan audit trail immutable | `interfaces/` |
+
+### Design Patterns
+
+| Pattern | Implementasi |
+|---|---|
+| **Strategy Pattern** | 3 algoritma depresiasi: `StraightLineStrategy`, `DecliningBalanceStrategy`, `SumOfYearsStrategy` |
+| **Observer Pattern** | `EventDispatcher` + `AuditListener` + `NotificationListener` — event dicatat otomatis |
+
+---
+
+## Troubleshooting
+
+| Masalah | Solusi |
+|---|---|
+| `Port 8001 already in use` | Ganti port: `--port 8002` dan edit `.env` → `ASSET_ENGINE_URL=http://127.0.0.1:8002` |
+| `composer: command not found` | Install Composer dari https://getcomposer.org |
+| `ModuleNotFoundError: No module named 'fastapi'` | Jalankan `pip install -r requirements.txt` di folder `vanguard-asset-api` |
+| Database connection error | Pastikan MySQL/XAMPP running, dan nama database = `vanguard_asset` |
+| `php artisan migrate --seed` gagal | Pastikan database sudah dibuat di phpMyAdmin |
+| Tombol "Calculate Depreciation" error | Pastikan FastAPI server (Terminal 1) sedang berjalan |
+
+---
+
+## Menjalankan Unit Tests
 
 ```bash
 cd vanguard-asset-api
 python -m pytest tests/ -v
 ```
 
-Hasil pengetesan yang sukses akan menampilkan:
-`46 passed ✅`
+Harusnya muncul **46 passed** ✅
 
 ---
 
-## 🔍 Pemecahan Masalah (Troubleshooting)
-
-<details>
-<summary><b>1. Port 8001 is already in use (FastAPI gagal start)</b></summary>
-Ada aplikasi lain yang memakai port 8001. Anda bisa mengganti port dengan menjalankan FastAPI di port lain, misalnya 8002:
-<code>python -m uvicorn main:app --host 127.0.0.1 --port 8002 --reload</code>
-Jangan lupa ubah nilai <code>ASSET_ENGINE_URL</code> pada file <code>.env</code> di Laravel menjadi <code>http://127.0.0.1:8002</code>.
-</details>
-
-<details>
-<summary><b>2. ModuleNotFoundError saat menjalankan FastAPI</b></summary>
-Pastikan virtual environment telah aktif (ditandai dengan <code>(venv)</code> di baris terminal Anda) dan jalankan ulang perintah install library:
-<code>pip install -r requirements.txt</code>
-</details>
-
-<details>
-<summary><b>3. Depresiasi bernilai error atau gagal dikalkulasi</b></summary>
-Tombol kalkulasi depresiasi pada web Laravel membutuhkan API Python aktif. Pastikan FastAPI di Terminal 1 tetap menyala saat melakukan kalkulasi nilai di web Laravel.
-</details>
-
-<details>
-<summary><b>4. Database connection refused</b></summary>
-Pastikan layanan database MySQL Anda (XAMPP/Laragon/MySQL Server) telah berstatus menyala, dan kredensial username serta password di file <code>.env</code> Laravel sudah sesuai.
-</details>
-
----
-
-Dibuat dengan penuh ❤️ untuk tugas besar **UAS Pemrograman Berorientasi Objek & Pemrograman Web**.
+**Dibuat dengan ❤️ untuk Proyek UAS OOP**
